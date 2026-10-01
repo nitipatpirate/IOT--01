@@ -48,26 +48,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
       icon: History,
     },
     {
-      id: 'alerts' as PageId,
-      name: 'การแจ้งเตือน',
-      desc: 'บันทึกเหตุการณ์ผิดปกติ',
-      icon: BellRing,
-      badge: alertCount > 0 ? alertCount : undefined,
-    },
-    {
-      id: 'reports' as PageId,
-      name: 'รายงานสรุป',
-      desc: 'สรุปสถิติ & เอกสาร PDF',
-      icon: FileSpreadsheet,
-    },
-    {
-      id: 'settings' as PageId,
-      name: 'ตั้งค่าระบบ',
-      desc: 'เกณฑ์ O2, เซ็นเซอร์, บอท',
-      icon: Sliders,
-      adminOnly: true,
-    },
-    {
       id: 'users' as PageId,
       name: 'จัดการผู้ใช้',
       desc: 'กำหนดสิทธิ์ & บัญชีเข้าใช้',

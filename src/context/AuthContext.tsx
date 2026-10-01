@@ -28,12 +28,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (!user) {
       const defaultAdmin: User = {
         id: 1,
-        first_name: 'สมศักดิ์',
-        last_name: 'เจริญผล',
+        first_name: 'admin',
+        last_name: '01',
         email: 'admin@o2safe.hospital',
-        department: 'ฝ่ายวิศวกรรมการแพทย์',
-        position: 'หัวหน้างานวิศวกรรมความปลอดภัย',
-        phone: '081-234-5678',
+        department: 'Test Department',
+        position: 'test',
+        phone: '0000000008',
         role: 'admin',
         status: 'active'
       };

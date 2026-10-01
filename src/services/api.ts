@@ -46,7 +46,11 @@ export const api = {
   },
 
   // History
-  async getHistory(sensorCode: string = 'all', metric: string = 'o2', limit: number = 100): Promise<{
+  async getHistory(
+    sensorCode: string = 'SN300-01',
+    metric: string = 'temp',
+    limit: number = 100
+  ): Promise<{
     stats: {
       totalPoints: number;
       avg: number;
@@ -56,8 +60,21 @@ export const api = {
     };
     data: any[];
   }> {
-    const res = await fetch(`${API_BASE}/history?sensor_code=${sensorCode}&metric=${metric}&limit=${limit}`);
-    if (!res.ok) throw new Error('Failed to fetch history');
+
+    const params = new URLSearchParams({
+      sensor_code: sensorCode,
+      metric: metric,
+      limit: String(limit)
+    });
+
+    const res = await fetch(
+      `${API_BASE}/history?${params.toString()}`
+    );
+
+    if (!res.ok) {
+      throw new Error('Failed to fetch history');
+    }
+
     return res.json();
   },
 

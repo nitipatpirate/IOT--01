@@ -4,7 +4,7 @@ import { ShieldCheck, Lock, Mail, AlertCircle, ArrowRight, Activity } from 'luci
 
 export const LoginPage: React.FC = () => {
   const { login, isLoading } = useAuth();
-  const [email, setEmail] = useState('admin@o2safe.hospital');
+  const [email, setEmail] = useState('admin1@o2safe.com');
   const [password, setPassword] = useState('admin123');
   const [error, setError] = useState<string | null>(null);
 
@@ -109,42 +109,46 @@ export const LoginPage: React.FC = () => {
           </span>
           <div className="grid grid-cols-2 gap-2">
             <button
-              onClick={() => handleQuickLogin('admin@o2safe.hospital', 'admin123')}
+              onClick={() => handleQuickLogin('admin1@o2safe.com', 'admin123')}
               className="rounded-lg border border-slate-800 bg-slate-950/60 p-2 text-left hover:border-brand-500/40 transition"
             >
-              <div className="text-[11px] font-bold text-brand-300">Super Admin</div>
-              <div className="text-[10px] text-slate-400 truncate">admin@o2safe.hospital</div>
+              <div className="text-[11px] font-bold text-brand-300">
+                Admin 1
+              </div>
+              <div className="text-[10px] text-slate-400 truncate">
+                admin1@o2safe.com
+              </div>
             </button>
 
             <button
-              onClick={() => handleQuickLogin('engineer@o2safe.hospital', 'eng123')}
+              onClick={() => handleQuickLogin('admin2@o2safe.com', 'admin123')}
               className="rounded-lg border border-slate-800 bg-slate-950/60 p-2 text-left hover:border-blue-500/40 transition"
             >
-              <div className="text-[11px] font-bold text-blue-300">Biomedical Eng</div>
-              <div className="text-[10px] text-slate-400 truncate">engineer@o2safe.hospital</div>
+              <div className="text-[11px] font-bold text-blue-300">
+                Admin 2
+              </div>
+              <div className="text-[10px] text-slate-400 truncate">
+                admin2@o2safe.com
+              </div>
             </button>
 
             <button
-              onClick={() => handleQuickLogin('nurse@o2safe.hospital', 'nurse123')}
+              onClick={() => handleQuickLogin('viewer1@o2safe.com', 'viewer123')}
               className="rounded-lg border border-slate-800 bg-slate-950/60 p-2 text-left hover:border-emerald-500/40 transition"
             >
-              <div className="text-[11px] font-bold text-emerald-300">Safety Operator</div>
-              <div className="text-[10px] text-slate-400 truncate">nurse@o2safe.hospital</div>
-            </button>
-
-            <button
-              onClick={() => handleQuickLogin('viewer@o2safe.hospital', 'view123')}
-              className="rounded-lg border border-slate-800 bg-slate-950/60 p-2 text-left hover:border-slate-600 transition"
-            >
-              <div className="text-[11px] font-bold text-slate-300">Viewer</div>
-              <div className="text-[10px] text-slate-400 truncate">viewer@o2safe.hospital</div>
+              <div className="text-[11px] font-bold text-emerald-300">
+                Viewer 1
+              </div>
+              <div className="text-[10px] text-slate-400 truncate">
+                viewer1@o2safe.com
+              </div>
             </button>
           </div>
         </div>
 
         <div className="mt-6 flex items-center justify-center space-x-2 text-[11px] text-slate-500">
           <Activity className="h-3.5 w-3.5 text-emerald-500" />
-          <span>เชื่อมต่อเซ็นเซอร์ฮาร์ดแวร์ Raspberry Pi Hub 3 จุด</span>
+          <span>เชื่อมต่อเซ็นเซอร์ฮาร์ดแวร์ ESP32 + SN-300</span>
         </div>
       </div>
     </div>

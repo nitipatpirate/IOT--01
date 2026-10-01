@@ -3,29 +3,29 @@ import { api } from '../services/api';
 import { Sensor, Alert, Threshold } from '../types';
 import { KPICard } from '../components/KPICard';
 import { O2Gauge } from '../components/O2Gauge';
-import { 
-  ShieldCheck, 
-  Cpu, 
-  BellRing, 
-  CloudSun, 
-  Thermometer, 
-  Droplets, 
-  CheckCircle2, 
+import {
+  ShieldCheck,
+  Cpu,
+  BellRing,
+  CloudSun,
+  Thermometer,
+  Droplets,
+  CheckCircle2,
   AlertTriangle,
   ArrowUpRight,
   RefreshCw,
   Clock
 } from 'lucide-react';
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
-  CartesianGrid, 
-  Tooltip, 
-  ResponsiveContainer, 
-  ReferenceArea, 
-  ReferenceLine 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  ReferenceArea,
+  ReferenceLine
 } from 'recharts';
 
 interface DashboardPageProps {
@@ -161,21 +161,25 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigateToRealti
       {/* 3 Sensor Station Overview Cards */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
         {sensors.map((sensor) => {
-          const reading = sensor.currentReading || { o2_level: 20.9, temperature: 22.0, humidity: 50.0, status: 'normal' };
+          const reading = sensor.currentReading || {
+            temperature: 0,
+            humidity: 0,
+            status: 'normal'
+          };
           const isDanger = reading.status === 'danger';
           const isWarning = reading.status === 'warning';
 
           return (
             <div
-              key={sensor.id}
-              className={`relative overflow-hidden rounded-2xl border p-5 transition-all shadow-xl ${
-                isDanger
-                  ? 'border-rose-500/50 bg-rose-950/20 shadow-rose-950/50'
-                  : isWarning
+              key={sensor.sensor_code}
+              className={`relative overflow-hidden rounded-2xl border p-5 transition-all shadow-xl ${isDanger
+                ? 'border-rose-500/50 bg-rose-950/20 shadow-rose-950/50'
+                : isWarning
                   ? 'border-amber-500/40 bg-amber-950/20'
                   : 'border-slate-800 bg-slate-900/80 hover:border-slate-700'
-              }`}
+                }`}
             >
+
               {/* Header */}
               <div className="flex items-start justify-between">
                 <div>
@@ -189,16 +193,14 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigateToRealti
                   </div>
                 </div>
 
-                <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold border ${
-                  isDanger
-                    ? 'border-rose-500/40 bg-rose-500/20 text-rose-300'
-                    : isWarning
+                <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-bold border ${isDanger
+                  ? 'border-rose-500/40 bg-rose-500/20 text-rose-300'
+                  : isWarning
                     ? 'border-amber-500/40 bg-amber-500/20 text-amber-300'
                     : 'border-emerald-500/40 bg-emerald-500/20 text-emerald-300'
-                }`}>
-                  <span className={`mr-1.5 h-1.5 w-1.5 rounded-full ${
-                    isDanger ? 'bg-rose-400 pulse-beacon' : isWarning ? 'bg-amber-400' : 'bg-emerald-400'
-                  }`} />
+                  }`}>
+                  <span className={`mr-1.5 h-1.5 w-1.5 rounded-full ${isDanger ? 'bg-rose-400 pulse-beacon' : isWarning ? 'bg-amber-400' : 'bg-emerald-400'
+                    }`} />
                   {isDanger ? 'รั่วไหล' : isWarning ? 'เฝ้าระวัง' : 'ปกติ'}
                 </span>
               </div>
@@ -245,104 +247,106 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigateToRealti
         })}
       </div>
 
-      {/* Main 24-Hour O2 Trend Graph */}
+      {/* Main 24-Hour Environment Trend Graph */}
       <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 shadow-xl">
+
         <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-800/80 gap-2">
           <div>
             <h2 className="text-sm font-bold text-slate-100 font-mono flex items-center space-x-2">
-              <span>กราฟแนวโน้มความเข้มข้นออกซิเจน 24 ชั่วโมง (24-HR O2 TREND)</span>
+              <span>
+                กราฟแนวโน้มอุณหภูมิและความชื้น 24 ชั่วโมง
+              </span>
             </h2>
+
             <p className="text-xs text-slate-400">
-              เปรียบเทียบทั้ง 3 จุดตรวจวัด พร้อมระบุช่วงปลอดภัยสากล (Safe Band 19.5% - 23.5%)
+              แสดงข้อมูลอุณหภูมิและความชื้นจากเซ็นเซอร์ SN-300 จากข้อมูลจริงในระบบ
             </p>
           </div>
 
-          {/* Legend */}
           <div className="flex items-center space-x-4 text-xs">
             <div className="flex items-center space-x-1.5">
+              <span className="h-2 w-4 rounded-full bg-amber-400" />
+              <span className="text-slate-300">
+                อุณหภูมิ (°C)
+              </span>
+            </div>
+
+            <div className="flex items-center space-x-1.5">
               <span className="h-2 w-4 rounded-full bg-cyan-400" />
-              <span className="text-slate-300">เซ็นเซอร์ 01 (คลังก๊าซ)</span>
-            </div>
-            <div className="flex items-center space-x-1.5">
-              <span className="h-2 w-4 rounded-full bg-emerald-400" />
-              <span className="text-slate-300">เซ็นเซอร์ 02 (ICU)</span>
-            </div>
-            <div className="flex items-center space-x-1.5">
-              <span className="h-2 w-4 rounded-full bg-indigo-400" />
-              <span className="text-slate-300">เซ็นเซอร์ 03 (Ward 4)</span>
+              <span className="text-slate-300">
+                ความชื้น (%RH)
+              </span>
             </div>
           </div>
         </div>
 
         <div className="h-72 w-full pt-4">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={trendData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" vertical={false} />
-              <XAxis 
-                dataKey="time" 
-                stroke="#64748B" 
-                fontSize={11} 
-                tickLine={false} 
+            <LineChart
+              data={trendData}
+              margin={{
+                top: 10,
+                right: 20,
+                left: 0,
+                bottom: 0
+              }}
+            >
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="#1E293B"
+                vertical={false}
               />
-              <YAxis 
-                domain={[18.0, 25.0]} 
-                stroke="#64748B" 
-                fontSize={11} 
-                tickLine={false} 
-                unit="%" 
+
+              <YAxis
+                yAxisId="temperature"
+                stroke="#F59E0B"
+                fontSize={11}
+                tickLine={false}
+                unit="°C"
               />
+
+              <YAxis
+                yAxisId="humidity"
+                orientation="right"
+                stroke="#06B6D4"
+                fontSize={11}
+                tickLine={false}
+                unit="%"
+              />
+
+              <XAxis
+                dataKey="time"
+                stroke="#64748B"
+                fontSize={11}
+                tickLine={false}
+              />
+
               <Tooltip
                 contentStyle={{
                   backgroundColor: '#0F172A',
                   borderColor: '#334155',
                   borderRadius: '0.75rem',
-                  fontSize: '12px',
-                  boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.5)',
+                  fontSize: '12px'
                 }}
               />
 
-              {/* Shaded Safety Envelope (19.5% to 23.5%) */}
-              <ReferenceArea
-                y1={19.5}
-                y2={23.5}
-                fill="#10B981"
-                fillOpacity={0.06}
-                stroke="#10B981"
-                strokeOpacity={0.2}
-                strokeDasharray="4 4"
-              />
-
-              {/* Baseline 20.9% */}
-              <ReferenceLine
-                y={20.9}
-                stroke="#06B6D4"
-                strokeDasharray="3 3"
-                label={{ value: 'มาตรฐาน 20.9%', fill: '#06B6D4', fontSize: 10, position: 'insideRight' }}
-              />
-
               <Line
+                yAxisId="temperature"
                 type="monotone"
-                dataKey="sensor_01"
-                name="เซ็นเซอร์ 01 (คลังก๊าซ)"
-                stroke="#06B6D4"
+                dataKey="temperature"
+                name="อุณหภูมิ"
+                stroke="#F59E0B"
                 strokeWidth={2}
                 dot={false}
                 activeDot={{ r: 5 }}
               />
+
               <Line
+                yAxisId="humidity"
                 type="monotone"
-                dataKey="sensor_02"
-                name="เซ็นเซอร์ 02 (ICU)"
-                stroke="#10B981"
-                strokeWidth={2}
-                dot={false}
-                activeDot={{ r: 5 }}
-              />
-              <Line
-                type="monotone"
-                dataKey="sensor_03"
-                name="เซ็นเซอร์ 03 (Ward 4)"
-                stroke="#818CF8"
+                dataKey="humidity"
+                name="ความชื้น"
+                stroke="#06B6D4"
                 strokeWidth={2}
                 dot={false}
                 activeDot={{ r: 5 }}
@@ -350,6 +354,7 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigateToRealti
             </LineChart>
           </ResponsiveContainer>
         </div>
+
       </div>
 
       {/* Bottom Row: Recent Alerts Feed & Threshold Reference Table */}
@@ -378,9 +383,8 @@ export const DashboardPage: React.FC<DashboardPageProps> = ({ onNavigateToRealti
                   className="flex items-center justify-between rounded-xl border border-slate-800/80 bg-slate-950/50 p-3 text-xs hover:border-slate-700/80 transition"
                 >
                   <div className="flex items-start space-x-3">
-                    <span className={`mt-0.5 flex h-2 w-2 rounded-full ${
-                      alert.severity === 'danger' ? 'bg-rose-400 pulse-beacon' : 'bg-amber-400'
-                    }`} />
+                    <span className={`mt-0.5 flex h-2 w-2 rounded-full ${alert.severity === 'danger' ? 'bg-rose-400 pulse-beacon' : 'bg-amber-400'
+                      }`} />
                     <div>
                       <div className="font-semibold text-slate-200">
                         {alert.sensor_name}

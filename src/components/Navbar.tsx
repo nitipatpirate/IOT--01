@@ -18,7 +18,7 @@ interface NavbarProps {
   hospitalName?: string;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ hospitalName = 'โรงพยาบาลศูนย์การแพทย์ศิริวัฒน์' }) => {
+export const Navbar: React.FC<NavbarProps> = ({ hospitalName = 'IOT Project' }) => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [time, setTime] = useState<string>('');

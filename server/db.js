@@ -111,10 +111,10 @@ export function initDatabase() {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, datetime('now', '-2 hours'))
     `);
 
-    insertUser.run('สมศักดิ์', 'เจริญผล', 'admin@o2safe.hospital', 'admin123', 'ฝ่ายวิศวกรรมการแพทย์', 'หัวหน้างานวิศวกรรมความปลอดภัย', '081-234-5678', 'admin', 'active');
-    insertUser.run('กมลชนก', 'สุวรรณศรี', 'engineer@o2safe.hospital', 'eng123', 'ฝ่ายเทคนิคชีวการแพทย์', 'วิศวกรชีวการแพทย์ชำนาญการ', '089-876-5432', 'engineer', 'active');
-    insertUser.run('อรทัย', 'พูนสวัสดิ์', 'nurse@o2safe.hospital', 'nurse123', 'แผนกผู้ป่วยวิกฤต (ICU)', 'พยาบาลหัวหน้าเวร ICU', '092-345-6789', 'operator', 'active');
-    insertUser.run('วิชัย', 'มั่นคงดี', 'viewer@o2safe.hospital', 'view123', 'งานบริหารความเสี่ยงอาคาร', 'เจ้าหน้าที่ตรวจสอบความปลอดภัย', '086-112-2334', 'viewer', 'active');
+    insertUser.run('admin', '01', 'admin@o2safe.hospital', 'admin123', 'Test Department', 'test', '0000000008', 'admin', 'active');
+    insertUser.run('admin', '02', 'engineer@o2safe.hospital', 'admin123', 'Test Department', 'test', '089-876-5432', 'admin', 'active');
+    insertUser.run('viewer', '01', 'viewer01@o2safe.hospital', 'viewer123', 'Viewer Department', 'test', '092-345-6789', 'viewer', 'active');
+    insertUser.run('viewer', '02', 'viewer02@o2safe.hospital', 'viewer123', 'Viewer Department', 'test', '086-112-2334', 'viewer', 'active');
     console.log('✔ Seeded 4 default users in SQLite database.');
   }
 
@@ -126,10 +126,41 @@ export function initDatabase() {
       VALUES (?, ?, ?, ?, ?, ?, ?, 1, 'online', '2026-08-15')
     `);
 
-    insertSensor.run('sensor_01', 'เซ็นเซอร์ 01 - คลังท่อก๊าซส่วนกลาง', 'อาคารยูทิลิตี้ ชั้นใต้ดิน B1 (Manifold Room)', 'RPI-NODE-01-MFLD', 'GPIO 21', '0x48', 0.0);
-    insertSensor.run('sensor_02', 'เซ็นเซอร์ 02 - ห้องผ่าตัด ICU Ward', 'อาคารเฉลิมพระเกียรติ ชั้น 3 ห้องผ่าตัดใหญ่ 2', 'RPI-NODE-02-ICU', 'GPIO 20', '0x49', 0.0);
-    insertSensor.run('sensor_03', 'เซ็นเซอร์ 03 - ตึกผู้ป่วยใน ชั้น 4 (Inpatient)', 'อาคารผู้ป่วยใน ชั้น 4 โซนท่อจ่ายออกซิเจน', 'RPI-NODE-03-WARD4', 'GPIO 16', '0x4A', 0.0);
-    console.log('✔ Seeded 3 default hospital sensors in SQLite.');
+    insertUser.run(
+      'Admin',
+      '1',
+      'admin1@o2safe.com',
+      'admin123',
+      'ฝ่ายบริหารระบบ',
+      'ผู้ดูแลระบบ',
+      '000-000-0001',
+      'admin',
+      'active'
+    );
+
+    insertUser.run(
+      'Admin',
+      '2',
+      'admin2@o2safe.com',
+      'admin123',
+      'ฝ่ายบริหารระบบ',
+      'ผู้ดูแลระบบ',
+      '000-000-0002',
+      'admin',
+      'active'
+    );
+
+    insertUser.run(
+      'Viewer',
+      '1',
+      'viewer1@o2safe.com',
+      'viewer123',
+      'ฝ่ายตรวจสอบ',
+      'ผู้ตรวจสอบระบบ',
+      '000-000-0003',
+      'viewer',
+      'active'
+    );
   }
 
   // Seed default thresholds
@@ -186,7 +217,7 @@ export function initDatabase() {
     // Generate readings every 15 minutes for 24 hours (96 points per sensor)
     for (let i = 96; i >= 0; i--) {
       const time = new Date(now - i * 15 * 60 * 1000).toISOString().replace('T', ' ').substring(0, 19);
-      
+
       for (const s of sensors) {
         // Base normal ambient O2 is ~20.9%
         let baseO2 = 20.85 + (Math.sin(i / 8) * 0.2) + ((Math.random() - 0.5) * 0.15);

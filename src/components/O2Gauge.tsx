@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface O2GaugeProps {
-  value: number; // e.g. 20.95
+  value?: number;
   min?: number;
   max?: number;
   size?: 'sm' | 'md' | 'lg';
@@ -17,10 +17,27 @@ export const O2Gauge: React.FC<O2GaugeProps> = ({
   label = 'ความเข้มข้น O2',
   showLabels = true,
 }) => {
+
+  if (value === undefined || value === null) {
+    return (
+      <div className="flex flex-col items-center justify-center relative">
+        <div className="w-48 h-36 flex flex-col items-center justify-center">
+          <div className="text-2xl font-bold text-slate-400">
+            ไม่มีข้อมูล
+          </div>
+
+          <div className="mt-2 px-3 py-1 text-xs rounded-full border border-slate-600 text-slate-400">
+            ไม่ได้เชื่อมต่อเซนเซอร์ O2
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   // Clamp value
   const clampedValue = Math.min(max, Math.max(min, value));
-  
-  // Calculate percentage (0 to 1)
+
+  // Calculate percentage
   const percent = (clampedValue - min) / (max - min);
 
   // Determine status color
